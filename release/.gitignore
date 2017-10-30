@@ -1,0 +1,3 @@
+#delete temp sim data
+*.simout
+*.simin

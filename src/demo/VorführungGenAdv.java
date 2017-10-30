@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -16,15 +18,18 @@ import simulation.SimulationState;
 
 public class VorführungGenAdv {
 	
-	public static void main(String[] args) {
+public static void main(String[] args) {
 		
-		Simulation sim = initSim("initData/init2.sim");
+		Path initPath = Paths.get(args[0], args[1]);
+		Path inPath = Paths.get(args[0], args[2]);
+		Path outPath = Paths.get(args[0], args[3]);
 		
-		String simString = runSim(sim,"inputData/player.simin");
+		Simulation sim = initSim(initPath.toString());
+		
+		String simString = runSim(sim,inPath.toString());
 		
 		try{
-			URL url = VorführungGen.class.getResource("outData/state.simout");
-			File file = new File(url.getPath());
+			File file = new File(outPath.toString());
 		    PrintWriter writer = new PrintWriter(file.getAbsolutePath(), "UTF-8");
 		    System.out.println(file.getAbsolutePath());
 		    writer.println(simString);
@@ -68,10 +73,9 @@ public class VorführungGenAdv {
 	}
 	
 	
-	static String runSim(Simulation sim, String playerInput) {
+	static String runSim(Simulation sim, String playerInputPath) {
 		try{
-			URL url = VorführungGenAdv.class.getResource(playerInput);
-			File file = new File(url.getPath());
+			File file = new File(playerInputPath);
 		    PrintWriter writer = new PrintWriter(file.getAbsolutePath(), "UTF-8");
 		    System.out.println(file.getAbsolutePath());
 		
@@ -105,11 +109,10 @@ public class VorführungGenAdv {
 		}
 	}
 	
-	static Simulation initSim(String simFile) {
+	static Simulation initSim(String simFilePath) {
 		System.out.println("Init");
 		
-		URL url = VorführungGenAdv.class.getResource(simFile);
-		File file = new File(url.getPath());
+		File file = new File(simFilePath);
         System.out.println(file.getAbsolutePath());
 
             Scanner input;

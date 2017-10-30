@@ -2,7 +2,8 @@ package demo;
 import java.awt.Point;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -15,13 +16,20 @@ public class Anzeige {
 
 	public static void main(String[] args) {
 		
-		Simulation sim = initSim("initData/init2.sim");
+		Path initPath = Paths.get(args[0], args[1]);
+		Path inPath = Paths.get(args[0], args[2]);
 		
-		String simString = runSim(sim,"inputData/player.simin");
+		Simulation sim = initSim(initPath.toString());
+		
+		String simString = runSim(sim,inPath.toString());
+		
+		int score = sim.getScore();
 		
 		System.out.println(simString);
 		
 		displaySim(simString);
+		
+		System.out.println(score);
 	}
 	
 	static void displaySim(String simString) {
@@ -54,9 +62,8 @@ public class Anzeige {
 	}
 	
 	
-	static String runSim(Simulation sim, String playerInput) {
-		URL url = VorführungRand.class.getResource(playerInput);
-		File file = new File(url.getPath());
+	static String runSim(Simulation sim, String playerInputPath) {
+		File file = new File(playerInputPath);
         System.out.println(file.getAbsolutePath());
         
         Scanner input;
@@ -101,11 +108,10 @@ public class Anzeige {
 		}		
 	}
 	
-	static Simulation initSim(String simFile) {
+	static Simulation initSim(String simFilePath) {
 		System.out.println("Init");
 		
-		URL url = Anzeige.class.getResource(simFile);
-		File file = new File(url.getPath());
+		File file = new File(simFilePath);
         System.out.println(file.getAbsolutePath());
 
             Scanner input;
