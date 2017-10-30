@@ -15,9 +15,9 @@ public class Anzeige {
 
 	public static void main(String[] args) {
 		
-		Simulation sim = initSim("init2.sim");
+		Simulation sim = initSim("initData/init2.sim");
 		
-		String simString = runSim(sim,"player.simin");
+		String simString = runSim(sim,"inputData/player.simin");
 		
 		System.out.println(simString);
 		

@@ -18,12 +18,12 @@ public class VorführungGenAdv {
 	
 	public static void main(String[] args) {
 		
-		Simulation sim = initSim("init.sim");
+		Simulation sim = initSim("initData/init2.sim");
 		
-		String simString = runSim(sim,"player.simin");
+		String simString = runSim(sim,"inputData/player.simin");
 		
 		try{
-			URL url = VorführungGenAdv.class.getResource("state.simout");
+			URL url = VorführungGen.class.getResource("outData/state.simout");
 			File file = new File(url.getPath());
 		    PrintWriter writer = new PrintWriter(file.getAbsolutePath(), "UTF-8");
 		    System.out.println(file.getAbsolutePath());
@@ -36,6 +36,7 @@ public class VorführungGenAdv {
 		
 		displaySim(simString);
 	}
+	
 	
 	static void displaySim(String simString) {
 		Scanner scanner = new Scanner(simString);
