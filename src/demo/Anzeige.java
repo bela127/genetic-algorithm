@@ -1,6 +1,7 @@
 package demo;
 
 import java.awt.Point;
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
@@ -30,9 +31,53 @@ public class Anzeige {
 		displaySim(simString);
 
 		System.out.println(score);
+		
+	}
+	
+	static void display(String[] simStates, DisplayWindow window) {
+		int index = simStates.length - 1;
+		String simState = simStates[index];
+		window.drawSimulationState(simState);
+		System.out.println("n for next Step, p for previews Step, any Number for Step.");
+		Scanner in = new Scanner(System.in);
+		while(true) {
+			if(in.hasNextInt()) {
+				int i = in.nextInt();
+				if(i >= 0 && i < simStates.length) {
+					index = i;
+				}
+			}else if(in.hasNext()) {
+				String i = in.next();
+				switch(i) {
+				case "n":
+					if(index + 1 < simStates.length) {
+						index++;
+					}
+					break;
+				case "p":
+					if(index - 1 >= 0) {
+						index--;
+					}
+					break;
+				case "q":
+					window.dispose();
+					return;
+				default:
+					System.out.println("Unknown Comand");
+					break;
+				}
+			}
+			System.out.println(index);
+			System.out.println(simState);
+			simState = simStates[index];
+			window.drawSimulationState(simState);
+			while(!in.hasNext());
+		}
 	}
 
 	static void displaySim(String simString) {
+		ArrayList<String> simStates = new ArrayList<String>();
+		
 		Scanner scanner = new Scanner(simString);
 		String line = "";
 
@@ -46,11 +91,12 @@ public class Anzeige {
 			if (!line.equals("#")) {
 				simState.append(line + "\n");
 			} else {
+				simStates.add(simState.toString());
 				window.drawSimulationState(simState.toString());
 				simState = new StringBuilder();
 
 				try {
-					Thread.sleep(100);
+					Thread.sleep(60);
 				} catch (InterruptedException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -59,6 +105,8 @@ public class Anzeige {
 		}
 
 		scanner.close();
+		String[] simArray = simStates.toArray(new String[simStates.size()]);
+		display(simArray, window);
 	}
 
 	static String runSim(Simulation sim, String playerInputPath) {
