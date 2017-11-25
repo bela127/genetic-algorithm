@@ -38,7 +38,7 @@ public class Anzeige {
 		int index = simStates.length - 1;
 		String simState = simStates[index];
 		window.drawSimulationState(simState);
-		System.out.println("n for next Step, p for previews Step, any Number for Step.");
+		System.out.println("r for replay, n for next Step, p for previews Step, any Number for Step.");
 		Scanner in = new Scanner(System.in);
 		while(true) {
 			if(in.hasNextInt()) {
@@ -59,6 +59,20 @@ public class Anzeige {
 						index--;
 					}
 					break;
+				case "r":
+					for(int j = 0; j < simStates.length; j++) {
+						System.out.println(j);
+						simState = simStates[j];
+						System.out.println(simState);
+						window.drawSimulationState(simState);
+						try {
+							Thread.sleep(120);
+						} catch (InterruptedException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+					break;
 				case "q":
 					window.dispose();
 					return;
@@ -68,8 +82,8 @@ public class Anzeige {
 				}
 			}
 			System.out.println(index);
-			System.out.println(simState);
 			simState = simStates[index];
+			System.out.println(simState);
 			window.drawSimulationState(simState);
 			while(!in.hasNext());
 		}

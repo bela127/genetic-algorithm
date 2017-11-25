@@ -125,7 +125,7 @@ public class Simulation {
 	}
 	
 	public int getScore() {
-		int score = map.player.health * 10 - placedBombs * 20 + killScore;
+		int score = map.player.health / 10 * (map.player.health * 10 - placedBombs * 20 + killScore);
 		return score;
 	}
 	
